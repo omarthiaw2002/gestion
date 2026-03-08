@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Gestion des biens</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<h1>Gestion des biens</h1>
+<div class="form-container">
+  <!-- Vidéo en fond -->
+  <img src="c:\Users\Lenovo\Downloads\CSS\premium_photo-1764234873302-cd19ea812a38.avif" alt="Fond" class="bg-video">
+    
+    
+</img>
+
+  <!-- Formulaire au-dessus -->
+  <div class="form">
+    <input type="number" id="prix" placeholder="Prix">
+    <input type="number" id="nombre" placeholder="Nombre">
+    <input type="text" id="lieu" placeholder="Lieu">
+    <input type="date" id="date">
+    <select id="statut">
+      <option value="disponible">Disponible</option>
+      <option value="non_disponible">Non disponible</option>
+      <option value="en_cours">En cours</option>
+    </select>
+    <input type="file" id="photos" multiple>
+    <button class="ajouter" onclick="ajouterBien()">Ajouter</button>
+  </div>
+</div>
+<br>
+<input type="text" id="recherche" placeholder="Rechercher par lieu..." onkeyup="rechercher()">
+<br>
+
+<table>
+<thead>
+<tr>
+<th>Photos</th>
+<th>Prix</th>
+<th>Nombre</th>
+<th>Lieu</th>
+<th>Date</th>
+<th>Statut</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="tableBiens"></tbody>
+</table>
+<script src="script.js"></script>
+</body>
+</html>
