@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <title>Gestion des biens</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
 
-<h1>Gestion des biens</h1>
+
 <div class="form-container">
+  
+<h1>Gestion des biens</h1>
   <!-- Vidéo en fond -->
-  <img src="images/premium_photo-1764234873302-cd19ea812a38.avif" alt="Fond" class="bg-video">
+  <img src="images/premium_photo-1764234873302-cd19ea812a38.avif" alt="Fond" class="img-top">
 
   <!-- Formulaire au-dessus -->
   <div class="form">
@@ -26,14 +27,15 @@
       <option value="non_disponible">Non disponible</option>
       <option value="en_cours">En cours</option>
     </select>
-    <input type="file" id="photos" multiple>
+    <input type="file" id="photos" accept="image/*" multiple>
     <button class="ajouter" onclick="ajouterBien()">Ajouter</button>
   </div>
-</div>
-<br>
+  <br>
 <input type="text" id="recherche" placeholder="Rechercher par lieu..." onkeyup="rechercher()">
 <br>
+</div>
 
+<div class="scrollable">
 <table>
 <thead>
 <tr>
@@ -48,6 +50,7 @@
 </thead>
 <tbody id="tableBiens"></tbody>
 </table>
+</div>
 <script src="script.js"></script>
 </body>
 </html>
