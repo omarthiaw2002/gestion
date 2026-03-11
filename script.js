@@ -16,8 +16,6 @@ const date = document.getElementById("date").value || new Date().toISOString().s
 
   try {
     // Récupération des valeurs du formulaire
-
-   const secteur = document.getElementById("secteur").value;
 const gestion = document.getElementById("gestion").value;
 const reference = document.getElementById("reference").value;
 const ville = document.getElementById("ville").value;
@@ -27,6 +25,7 @@ const type_papier = document.getElementById("type_papier").value;
 const meuble = document.getElementById("meuble").value;
 const chambres = document.getElementById("chambres").value;
 const surface = document.getElementById("surface").value;
+const description = document.getElementById("description").value;
 const lien_dossier = document.getElementById("lien_dossier").value;
 const geolocalisation = document.getElementById("geolocalisation").value;
 const infos_commentaire = document.getElementById("infos_commentaire").value;
@@ -71,7 +70,6 @@ if (files.length > 0) {
 const { error } = await supabaseClient
 .from("biens")
 .update({
-secteur,
 gestion,
 reference,
 ville,
@@ -81,10 +79,12 @@ type_papier,
 meuble,
 chambres,
 surface,
+description,
 prix:Number(prix),
 lien_dossier,
 geolocalisation,
 infos_commentaire,
+contact,
 reference_par,
 date_stockage:date,
 statut
@@ -104,7 +104,6 @@ document.querySelector(".ajouter").textContent = "Ajouter";
 else {
 
 const { error } = await supabaseClient.from("biens").insert([{
-secteur,
 gestion,
 reference,
 ville,
@@ -114,10 +113,12 @@ type_papier,
 meuble,
 chambres,
 surface,
+description,
 prix:Number(prix),
 lien_dossier,
 geolocalisation,
 infos_commentaire,
+contact,
 reference_par,
 date_stockage:date,
 statut,
@@ -194,7 +195,6 @@ if (bien.images) {
       row.setAttribute("data-lieu", (bien.ville || "").toLowerCase());
 row.innerHTML = `
 <td>${imagesHTML}</td>
-<td>${bien.secteur || ""}</td>
 <td>${bien.gestion || ""}</td>
 <td>${bien.reference || ""}</td>
 <td>${bien.ville || ""}</td>
@@ -204,6 +204,7 @@ row.innerHTML = `
 <td>${bien.meuble || ""}</td>
 <td>${bien.chambres || ""}</td>
 <td>${bien.surface || ""}</td>
+<td>${bien.description || ""}</td>
 <td>${bien.prix || ""}</td>
 <td>${bien.lien_dossier || ""}</td>
 <td>${bien.geolocalisation || ""}</td>
@@ -271,8 +272,6 @@ const bien = window.biensData.find(b => b.id === id);
 if (!bien) return;
 
 bienEnModification = id;
-
-document.getElementById("secteur").value = bien.secteur || "";
 document.getElementById("gestion").value = bien.gestion || "";
 document.getElementById("reference").value = bien.reference || "";
 document.getElementById("ville").value = bien.ville || "";
@@ -282,11 +281,13 @@ document.getElementById("type_papier").value = bien.type_papier || "";
 document.getElementById("meuble").value = bien.meuble || "";
 document.getElementById("chambres").value = bien.chambres || "";
 document.getElementById("surface").value = bien.surface || "";
+document.getElementById("description").value = bien.description || "";
 document.getElementById("prix").value = bien.prix || "";
 document.getElementById("lien_dossier").value = bien.lien_dossier || "";
 document.getElementById("geolocalisation").value = bien.geolocalisation || "";
 document.getElementById("infos_commentaire").value = bien.infos_commentaire || "";
 document.getElementById("reference_par").value = bien.reference_par || "";
+document.getElementById("contact").value = bien.contact || "";
 document.getElementById("date").value = bien.date_stockage || "";
 document.getElementById("statut").value = bien.statut || "";
 

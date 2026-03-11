@@ -18,10 +18,9 @@
 
   <!-- Formulaire au-dessus -->
   <div class="form">
-   <input type="text" id="secteur" placeholder="Secteur">
 <select id="gestion">
-  <option>Direct</option>
-  <option>indirect</option>
+  <option>Produit Direct</option>
+  <option>Produit indirect</option>
 </select>
 <input type="text" id="reference" placeholder="Référence">
 <input type="text" id="ville" placeholder="Ville">
@@ -44,11 +43,12 @@
 </select>
 
 <select id="meuble">
-<option>oui</option>
-<option>non</option>
+<option>Meublé</option>
+<option>Non meublé</option>
 </select>
 <input type="number" id="chambres" placeholder="Nombre de chambres">
 <input type="text" id="surface" placeholder="Surface">
+<input type="text" id="description" placeholder="Description">
 <input type="number" id="prix" placeholder="Prix" step="0.01">
 <input type="text" id="lien_dossier" placeholder="Lien dossier">
 <input type="text" id="geolocalisation" placeholder="Geolocalisation">
@@ -81,7 +81,6 @@
 <thead>
   <tr>
      <th>Images</th>
-  <th>Secteur</th>
   <th>Gestion</th>
   <th>Référence</th>
   <th>Ville</th>
@@ -91,6 +90,7 @@
   <th>Meublé</th>
   <th>Chambres</th>
   <th>Surface</th>
+  <th>Description</th>
   <th>Prix</th>
   <th>lien dossier</th>
   <th>Geolocalisation</th>
