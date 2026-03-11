@@ -18,10 +18,49 @@
 
   <!-- Formulaire au-dessus -->
   <div class="form">
-    <input type="number" id="prix" placeholder="Prix">
-    <input type="number" id="nombre" placeholder="Nombre">
-    <input type="text" id="lieu" placeholder="Lieu">
-    <input type="date" id="date">
+   <input type="text" id="secteur" placeholder="Secteur">
+<select id="gestion">
+  <option>Direct</option>
+  <option>indirect</option>
+</select>
+<input type="text" id="reference" placeholder="Référence">
+<input type="text" id="ville" placeholder="Ville">
+<input type="text" id="quartier" placeholder="Quartier">
+
+<select id="type_bien">
+<option>Villa</option>
+<option>Terrain</option>
+<option>Appartement</option>
+<option>Site</option>
+<option>Champs</option>
+</select>
+
+<select id="type_papier">
+<option>Notification</option>
+<option>Acte administratif</option>
+<option>Délibération</option>
+<option>Bail</option>
+<option>Titre Foncier</option>
+</select>
+
+<select id="meuble">
+<option>oui</option>
+<option>non</option>
+</select>
+<input type="number" id="chambres" placeholder="Nombre de chambres">
+<input type="text" id="surface" placeholder="Surface">
+<input type="number" id="prix" placeholder="Prix" step="0.01">
+<input type="text" id="lien_dossier" placeholder="Lien dossier">
+<input type="text" id="geolocalisation" placeholder="Geolocalisation">
+<input type="text" id="infos_commentaire" placeholder="Infos commentaire">
+<input type="text" id="contact" placeholder="Nom Prenom (téléphone)">
+ <select id="reference_par">
+      <option value="Seydou">Seydou</option>
+      <option value="Tonton">Tonton</option>
+      <option value="Fatou">Fatou</option>
+       <option value="Mame Khady">Mame Khady</option>
+    </select>
+<input type="date" id="date">
     <select id="statut">
       <option value="disponible">Disponible</option>
       <option value="non_disponible">Non disponible</option>
@@ -31,26 +70,39 @@
     <button class="ajouter" onclick="ajouterBien()">Ajouter</button>
   </div>
   <br>
-<input type="text" id="recherche" placeholder="Rechercher par lieu..." onkeyup="rechercher()">
+<input type="text" id="rechercheVille" placeholder="Rechercher par ville..." onkeyup="rechercherVille()">
+
+<input type="number" id="recherchePrix" placeholder="Rechercher par prix..." onkeyup="rechercherPrix()">
 <br>
 </div>
 
 <div class="scrollable">
 <table>
 <thead>
-<tr>
-<th>Photos</th>
-<th>Prix</th>
-<th>Nombre</th>
-<th>Lieu</th>
-<th>Date</th>
-<th>Statut</th>
-<th>Actions</th>
+  <tr>
+     <th>Images</th>
+  <th>Secteur</th>
+  <th>Gestion</th>
+  <th>Référence</th>
+  <th>Ville</th>
+  <th>Quartier</th>
+  <th>Type de bien</th>
+  <th>Type de papier</th>
+  <th>Meublé</th>
+  <th>Chambres</th>
+  <th>Surface</th>
+  <th>Prix</th>
+  <th>lien dossier</th>
+  <th>Geolocalisation</th>
+  <th>Infos/Commentaire</th>
+  <th>Contact</th>
+  <th>Référence par</th>
+  <th>Date de stockage</th>
+ <th>Actions</th>
 </tr>
 </thead>
 <tbody id="tableBiens"></tbody>
 </table>
-</div>
-<script src="script.js"></script>
+</div><script src="script.js"></script>
 </body>
 </html>

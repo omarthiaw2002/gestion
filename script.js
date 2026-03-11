@@ -1,5 +1,4 @@
 
-
 // --- CONFIGURATION SUPABASE ---
 const supabaseUrl = "https://oosedarmjrdizwxxzbpr.supabase.co";
 const supabaseKey = "sb_publishable_q7QhDVsfPwy1woYGDIUi7A_Pdsy-BT-";
@@ -10,23 +9,38 @@ async function ajouterBien() {
   const btn = event.target; // le bouton qui a déclenché l'événement
   btn.disabled = true;
   btn.textContent = "Ajout...";
+  const prix = document.getElementById("prix").value.trim();
+const statut = document.getElementById("statut").value;
+const files = document.getElementById("photos").files;
+const date = document.getElementById("date").value || new Date().toISOString().split("T")[0];
 
   try {
     // Récupération des valeurs du formulaire
-    const prix = document.getElementById("prix").value.trim();
-    const nombre = document.getElementById("nombre").value.trim();
-    const lieu = document.getElementById("lieu").value.trim();
-    const date = document.getElementById("date").value;
-    const statut = document.getElementById("statut").value;
-    const files = document.getElementById("photos").files;
+
+   const secteur = document.getElementById("secteur").value;
+const gestion = document.getElementById("gestion").value;
+const reference = document.getElementById("reference").value;
+const ville = document.getElementById("ville").value;
+const quartier = document.getElementById("quartier").value;
+const type_bien = document.getElementById("type_bien").value;
+const type_papier = document.getElementById("type_papier").value;
+const meuble = document.getElementById("meuble").value;
+const chambres = document.getElementById("chambres").value;
+const surface = document.getElementById("surface").value;
+const lien_dossier = document.getElementById("lien_dossier").value;
+const geolocalisation = document.getElementById("geolocalisation").value;
+const infos_commentaire = document.getElementById("infos_commentaire").value;
+const contact = document.getElementById("contact").value;
+const reference_par = document.getElementById("reference_par").value;
+
 
     // --- Validations ---
-    if (!prix || !nombre || !lieu || !date) {
-      throw new Error("Tous les champs sont obligatoires.");
-    }
-    if (isNaN(prix) || isNaN(nombre)) {
-      throw new Error("Prix et Nombre doivent être des nombres.");
-    }
+   if (!prix || !ville || !quartier) {
+  throw new Error("Veuillez remplir les champs obligatoires.");
+}
+if (isNaN(prix)) {
+  throw new Error("Le prix doit être un nombre.");
+}
 
     // --- Upload d'une image (premier fichier seulement) ---
   let imagesUrls = [];
@@ -52,23 +66,72 @@ if (files.length > 0) {
 }
 
     // --- Insertion dans la table "biens" ---
-    // Attention : le nom de la colonne contient un tiret → guillemets obligatoires
-    const { error: insertError } = await supabaseClient.from("biens").insert([
-      {
-        prix: Number(prix),
-        nombre: Number(nombre),
-        lieu,
-        "date-stockage": date,
-        statut,
-        images: imagesUrls,
-      },
-    ]);
-    if (insertError) throw insertError;
+   if (bienEnModification) {
 
+const { error } = await supabaseClient
+.from("biens")
+.update({
+secteur,
+gestion,
+reference,
+ville,
+quartier,
+type_bien,
+type_papier,
+meuble,
+chambres,
+surface,
+prix:Number(prix),
+lien_dossier,
+geolocalisation,
+infos_commentaire,
+reference_par,
+date_stockage:date,
+statut
+})
+.eq("id", bienEnModification);
+
+if (error) throw error;
+
+alert("Bien modifié avec succès");
+
+bienEnModification = null;
+
+document.querySelector(".ajouter").textContent = "Ajouter";
+
+}
+
+else {
+
+const { error } = await supabaseClient.from("biens").insert([{
+secteur,
+gestion,
+reference,
+ville,
+quartier,
+type_bien,
+type_papier,
+meuble,
+chambres,
+surface,
+prix:Number(prix),
+lien_dossier,
+geolocalisation,
+infos_commentaire,
+reference_par,
+date_stockage:date,
+statut,
+images:imagesUrls
+}]);
+
+if (error) throw error;
+
+alert("Bien ajouté");
+
+}
     // --- Réinitialisation du formulaire ---
     document.getElementById("prix").value = "";
-    document.getElementById("nombre").value = "";
-    document.getElementById("lieu").value = "";
+
     document.getElementById("date").value = "";
     document.getElementById("statut").value = "disponible";
     document.getElementById("photos").value = "";
@@ -128,20 +191,58 @@ if (bien.images) {
       // Création de la ligne
       const row = document.createElement("tr");
       row.className = bien.statut;
-      row.setAttribute("data-lieu", (bien.lieu || "").toLowerCase());
+      row.setAttribute("data-lieu", (bien.ville || "").toLowerCase());
+row.innerHTML = `
+<td>${imagesHTML}</td>
+<td>${bien.secteur || ""}</td>
+<td>${bien.gestion || ""}</td>
+<td>${bien.reference || ""}</td>
+<td>${bien.ville || ""}</td>
+<td>${bien.quartier || ""}</td>
+<td>${bien.type_bien || ""}</td>
+<td>${bien.type_papier || ""}</td>
+<td>${bien.meuble || ""}</td>
+<td>${bien.chambres || ""}</td>
+<td>${bien.surface || ""}</td>
+<td>${bien.prix || ""}</td>
+<td>${bien.lien_dossier || ""}</td>
+<td>${bien.geolocalisation || ""}</td>
+<td>${bien.infos_commentaire || ""}</td>
 
-      row.innerHTML = `
-        <td>${imagesHTML}</td>
-        <td>${bien.prix}</td>
-        <td>${bien.nombre}</td>
-        <td>${bien.lieu}</td>
-        <td>${bien["date-stockage"] || ""}</td>
-        <td>${bien.statut}</td>
-        <td>
-          <button class="btn-edit" onclick="modifier(${bien.id})">Modifier</button>
-          <button class="btn-delete" onclick="supprimer(${bien.id})">Supprimer</button>
-        </td>
-      `;
+<td>
+${bien.contact || ""} 
+</td>
+<td>${bien.reference_par || ""}</td>
+
+<td>${bien.date_stockage || ""}</td>
+<td>
+  <button 
+    onclick="modifier(${bien.id})" 
+    style="
+      background-color: #4CAF50; 
+      color: white; 
+      border: none; 
+      padding: 5px 10px; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      margin-right: 4px;
+    ">
+    Modifier
+  </button>
+  <button 
+    onclick="supprimer(${bien.id})" 
+    style="
+      background-color: #f44336; 
+      color: white; 
+      border: none; 
+      padding: 5px 10px; 
+      border-radius: 4px; 
+      cursor: pointer;
+    ">
+    Supprimer
+  </button>
+</td>
+`;
       tbody.appendChild(row);
     });
   } catch (error) {
@@ -162,33 +263,76 @@ async function supprimer(id) {
 }
 
 // --- MODIFIER (exemple simple : changer le prix) ---
-async function modifier(id) {
-  const nouveauPrix = prompt("Nouveau prix ?");
-  if (nouveauPrix === null) return;
-  if (isNaN(nouveauPrix) || nouveauPrix.trim() === "") {
-    alert("Veuillez entrer un nombre valide.");
-    return;
-  }
-  try {
-    const { error } = await supabaseClient
-      .from("biens")
-      .update({ prix: Number(nouveauPrix) })
-      .eq("id", id);
-    if (error) throw error;
-    afficherBiens();
-  } catch (error) {
-    alert("Erreur modification : " + error.message);
-  }
+let bienEnModification = null;
+function modifier(id) {
+
+const bien = window.biensData.find(b => b.id === id);
+
+if (!bien) return;
+
+bienEnModification = id;
+
+document.getElementById("secteur").value = bien.secteur || "";
+document.getElementById("gestion").value = bien.gestion || "";
+document.getElementById("reference").value = bien.reference || "";
+document.getElementById("ville").value = bien.ville || "";
+document.getElementById("quartier").value = bien.quartier || "";
+document.getElementById("type_bien").value = bien.type_bien || "";
+document.getElementById("type_papier").value = bien.type_papier || "";
+document.getElementById("meuble").value = bien.meuble || "";
+document.getElementById("chambres").value = bien.chambres || "";
+document.getElementById("surface").value = bien.surface || "";
+document.getElementById("prix").value = bien.prix || "";
+document.getElementById("lien_dossier").value = bien.lien_dossier || "";
+document.getElementById("geolocalisation").value = bien.geolocalisation || "";
+document.getElementById("infos_commentaire").value = bien.infos_commentaire || "";
+document.getElementById("reference_par").value = bien.reference_par || "";
+document.getElementById("date").value = bien.date_stockage || "";
+document.getElementById("statut").value = bien.statut || "";
+
+document.querySelector(".ajouter").textContent = "Mettre à jour";
+
+window.scrollTo({top:0, behavior:"smooth"});
+
 }
 
-// --- RECHERCHE PAR LIEU ---
-function rechercher() {
-  const input = document.getElementById("recherche").value.toLowerCase();
-  const rows = document.querySelectorAll("#tableBiens tr");
-  rows.forEach((row) => {
-    const lieu = row.getAttribute("data-lieu") || "";
-    row.style.display = lieu.includes(input) ? "" : "none";
-  });
+// --- RECHERCHE PAR ville ---
+function rechercherVille() {
+
+const ville = document.getElementById("rechercheVille").value.toLowerCase();
+const rows = document.querySelectorAll("#tableBiens tr");
+
+rows.forEach(row => {
+
+const villeBien = row.children[4].textContent.toLowerCase();
+
+if (villeBien.includes(ville)) {
+row.style.display = "";
+} else {
+row.style.display = "none";
+}
+
+});
+
+}
+
+// --- RECHERCHE PAR prix ---
+function rechercherPrix() {
+
+const prixMax = document.getElementById("recherchePrix").value;
+const rows = document.querySelectorAll("#tableBiens tr");
+
+rows.forEach(row => {
+
+const prixBien = parseFloat(row.children[11].textContent) || 0;
+
+if (!prixMax || prixBien <= prixMax) {
+row.style.display = "";
+} else {
+row.style.display = "none";
+}
+
+});
 }
 function voirImages(bienId) {
   const bien = window.biensData.find(b => b.id === bienId);
